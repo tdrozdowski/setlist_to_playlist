@@ -10,7 +10,6 @@ mod ffi_bridge_tests {
     fn test_bridge_module_exists() {
         // This test verifies the bridge module exists and compiles
         // It ensures the FFI bindings are generated correctly at build time
-        assert!(true, "FFI bridge module compiled successfully");
     }
 
     // TODO: Add actual Swift function call tests once we have Swift runtime available

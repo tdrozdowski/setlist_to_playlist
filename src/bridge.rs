@@ -40,6 +40,5 @@ mod tests {
     fn test_ffi_module_compiles() {
         // This test just verifies the module compiles
         // Actual FFI functionality is tested via integration tests
-        assert!(true);
     }
 }
