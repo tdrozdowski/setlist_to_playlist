@@ -1,4 +1,7 @@
 fn main() {
+    // Declare custom cfg for tarpaulin coverage exclusion
+    println!("cargo::rustc-check-cfg=cfg(tarpaulin_include)");
+
     let bridge = vec!["src/bridge.rs"];
 
     for path in &bridge {

@@ -19,4 +19,3 @@ swift-bridge-build = "0.1.57"
 
 [dev-dependencies]
 mockall = "0.13.1"
-wiremock = "0.6.5"
