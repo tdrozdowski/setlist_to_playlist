@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn main() {
@@ -24,17 +24,17 @@ fn main() {
     compile_swift_library(&out_dir, module_name);
 }
 
-fn compile_swift_library(out_dir: &PathBuf, module_name: &str) {
+fn compile_swift_library(out_dir: &Path, module_name: &str) {
     use std::fs;
 
     // Files are generated in a subdirectory
     let generated_swift = out_dir
         .join(module_name)
-        .join(format!("{}.swift", module_name));
+        .join(format!("{module_name}.swift"));
     let swift_bridge_core = out_dir.join("SwiftBridgeCore.swift");
     let swift_bridge_core_header = out_dir.join("SwiftBridgeCore.h");
     let swift_source = PathBuf::from("swift/Sources/MusicKitBridge.swift");
-    let generated_header = out_dir.join(module_name).join(format!("{}.h", module_name));
+    let generated_header = out_dir.join(module_name).join(format!("{module_name}.h"));
 
     // Verify generated files exist
     if !generated_swift.exists() {
@@ -70,7 +70,7 @@ fn compile_swift_library(out_dir: &PathBuf, module_name: &str) {
 
     // Output library name and path
     let lib_name = "musickit_bridge";
-    let lib_path = out_dir.join(format!("lib{}.a", lib_name));
+    let lib_path = out_dir.join(format!("lib{lib_name}.a"));
 
     println!("cargo:rerun-if-changed={}", swift_source.display());
 
@@ -104,7 +104,7 @@ fn compile_swift_library(out_dir: &PathBuf, module_name: &str) {
 
     // Tell Cargo to link the Swift library
     println!("cargo:rustc-link-search=native={}", out_dir.display());
-    println!("cargo:rustc-link-lib=static={}", lib_name);
+    println!("cargo:rustc-link-lib=static={lib_name}");
 
     // Add Swift runtime library search paths
     // These are needed for Swift concurrency support

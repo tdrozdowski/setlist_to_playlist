@@ -13,7 +13,7 @@ fn run() {
     // Test 1: Verify FFI bridge connectivity
     println!("1. Testing FFI bridge connection...");
     let message = test_connection();
-    println!("   ✓ Bridge response: {}\n", message);
+    println!("   ✓ Bridge response: {message}\n");
 
     // Test 2: Request MusicKit authorization
     println!("2. Requesting MusicKit authorization...");
