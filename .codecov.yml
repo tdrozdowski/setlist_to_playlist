@@ -1,0 +1,52 @@
+# .codecov.yml - Codecov configuration
+# Documentation: https://docs.codecov.com/docs/codecov-yaml
+
+# Coverage requirements
+coverage:
+  status:
+    project:
+      default:
+        target: 80%          # Minimum 80% coverage required
+        threshold: 1%        # Allow max 1% drop from previous commit
+        if_ci_failed: error  # Fail if CI failed
+    patch:
+      default:
+        target: 80%          # New code must also have 80%+ coverage
+        if_ci_failed: error
+
+# PR comment configuration
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: false     # Comment even if coverage unchanged
+  require_base: false        # Comment even for first PR
+  require_head: true         # Only comment if head report exists
+
+# Ignore these files from coverage
+ignore:
+  - "src/main.rs"           # Binary entry point
+  - "src/bridge.rs"         # Generated FFI code
+  - "**/*_test.rs"          # Test files
+  - "tests/**"              # Test directories
+
+# Flags for different parts of codebase
+flags:
+  services:
+    paths:
+      - src/services/
+    target: 90%              # Services need 90%+ coverage
+
+  controllers:
+    paths:
+      - src/controllers/
+    target: 85%              # Controllers need 85%+ coverage
+
+  adapters:
+    paths:
+      - src/adapters/
+    target: 85%              # Adapters need 85%+ coverage
+
+  domain:
+    paths:
+      - src/domain/
+    target: 90%              # Domain models need 90%+ coverage

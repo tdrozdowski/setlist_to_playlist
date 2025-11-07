@@ -1,0 +1,37 @@
+name: Dependency Check
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday at 00:00 UTC
+  workflow_dispatch:     # Allow manual trigger
+
+jobs:
+  check-deps:
+    name: Check for Outdated Dependencies
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-outdated
+        run: cargo install cargo-outdated
+
+      - name: Check for outdated dependencies
+        run: cargo outdated --exit-code 1
+        continue-on-error: true
+
+      - name: Create issue if outdated
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Outdated Dependencies Detected',
+              body: 'The weekly dependency check found outdated dependencies. Run `cargo outdated` locally and update with `cargo upgrade`.',
+              labels: ['dependencies', 'maintenance']
+            })
