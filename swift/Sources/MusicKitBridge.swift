@@ -19,11 +19,34 @@ public class MusicKitBridge {
     }
 
     /// Search for tracks matching a query
-    /// Returns track identifiers as strings
+    /// Returns track identifiers as strings in the format "id|title|artist"
     public static func searchTracks(query: String) async -> [String] {
-        // TODO: Implement actual MusicKit search
-        // For now, return empty array until we implement the full search logic
-        return []
+        // Ensure we have authorization before searching
+        guard await MusicAuthorization.request() == .authorized else {
+            return []
+        }
+
+        do {
+            // Perform catalog search for songs
+            var searchRequest = MusicCatalogSearchRequest(term: query, types: [Song.self])
+            searchRequest.limit = 25  // Get top 25 results
+
+            let searchResponse = try await searchRequest.response()
+
+            // Extract song information and format as "id|title|artist"
+            let trackInfo = searchResponse.songs.map { song in
+                let id = song.id.rawValue
+                let title = song.title
+                let artist = song.artistName
+                return "\(id)|\(title)|\(artist)"
+            }
+
+            return trackInfo
+        } catch {
+            // Log error and return empty array
+            print("MusicKit search error: \(error.localizedDescription)")
+            return []
+        }
     }
 
     /// Create a playlist with the given name and track IDs
