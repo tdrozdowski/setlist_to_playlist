@@ -15,18 +15,21 @@ mod ffi {
 
         // Request MusicKit authorization
         // Returns true if authorized, false otherwise
+        // Note: Swift side blocks on async work using DispatchSemaphore
         #[swift_bridge(swift_name = "requestAuthorization")]
-        async fn request_authorization() -> bool;
+        fn request_authorization() -> bool;
 
         // Search for tracks matching a query
         // Returns track identifiers as strings
+        // Note: Swift side blocks on async work using DispatchSemaphore
         #[swift_bridge(swift_name = "searchTracks")]
-        async fn search_tracks(query: String) -> Vec<String>;
+        fn search_tracks(query: String) -> Vec<String>;
 
         // Create a playlist with the given name and track IDs
         // Returns the playlist ID if successful, empty string otherwise
+        // Note: Swift side blocks on async work using DispatchSemaphore
         #[swift_bridge(swift_name = "createPlaylist")]
-        async fn create_playlist(name: String, track_ids: Vec<String>) -> String;
+        fn create_playlist(name: String, track_ids: Vec<String>) -> String;
     }
 }
 

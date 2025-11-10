@@ -1,0 +1,10 @@
+#!/bin/bash
+# Build configuration template
+# Copy this to build-config.sh and fill in your values
+
+# Your Apple Developer bundle identifier
+BUNDLE_ID="com.example.yourapp"
+
+# Your code signing identity (get via: security find-identity -v -p codesigning)
+# Use the full SHA-1 hash to avoid ambiguity
+SIGNING_IDENTITY="YOUR_CERTIFICATE_HASH_HERE"

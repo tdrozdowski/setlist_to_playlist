@@ -176,6 +176,10 @@ release: ## Build release binary
 	@echo "Release binary built at: target/release/setlist_to_playlist"
 	@echo ""
 
+app-bundle: ## Build macOS app bundle with code signing
+	@echo "Building macOS app bundle..."
+	@./scripts/build-app-bundle.sh
+
 install: release ## Install binary to /usr/local/bin
 	@echo "Installing binary to /usr/local/bin..."
 	@sudo cp target/release/setlist_to_playlist /usr/local/bin/
