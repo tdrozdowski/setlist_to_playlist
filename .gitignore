@@ -2,3 +2,13 @@
 /.idea
 /.env
 /coverage
+*.app
+
+# macOS Code Signing
+*.provisionprofile
+Entitlements.plist
+Info.plist
+build-config.sh
+
+# macOS specific
+.DS_Store
